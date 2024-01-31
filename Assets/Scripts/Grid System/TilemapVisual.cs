@@ -7,7 +7,7 @@ public class TilemapVisual : MonoBehaviour
     [System.Serializable]
     public struct TilemapSpriteUV
     {
-        public Tilemap.TilemapObject.TilemapSprite tilemapSprite;
+        public Cell.TilemapSprite tilemapSprite;
         public Vector2Int uv00Pixels;
         public Vector2Int uv11Pixels;
     }
@@ -19,10 +19,10 @@ public class TilemapVisual : MonoBehaviour
     }
 
     [SerializeField] private TilemapSpriteUV[] tilemapSpriteUVArray;
-    private Grid<Tilemap.TilemapObject> grid;
+    private Grid<Cell> grid;
     private Mesh mesh;
     private bool updateMesh;
-    private Dictionary<Tilemap.TilemapObject.TilemapSprite, UVCoords> uvCoordsDictionary;
+    private Dictionary<Cell.TilemapSprite, UVCoords> uvCoordsDictionary;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class TilemapVisual : MonoBehaviour
         float textureWidth = texture.width;
         float textureHeight = texture.height;
 
-        uvCoordsDictionary = new Dictionary<Tilemap.TilemapObject.TilemapSprite, UVCoords>();
+        uvCoordsDictionary = new Dictionary<Cell.TilemapSprite, UVCoords>();
 
         foreach (TilemapSpriteUV tilemapSpriteUV in tilemapSpriteUVArray)
         {
@@ -45,7 +45,7 @@ public class TilemapVisual : MonoBehaviour
         }
     }
 
-    public void SetGrid(Tilemap tilemap, Grid<Tilemap.TilemapObject> grid)
+    public void SetGrid(Tilemap tilemap, Grid<Cell> grid)
     {
         this.grid = grid;
         UpdateTileMapVisual();
@@ -59,7 +59,7 @@ public class TilemapVisual : MonoBehaviour
         updateMesh = true;
     }
 
-    private void Grid_OnGridValueChanged(object sender, Grid<Tilemap.TilemapObject>.OnGridObjectChangedEventArgs e)
+    private void Grid_OnGridValueChanged(object sender, Grid<Cell>.OnGridObjectChangedEventArgs e)
     {
         updateMesh = true;
     }
@@ -84,10 +84,10 @@ public class TilemapVisual : MonoBehaviour
                 int index = x * grid.GetHeight() + y;
                 Vector3 quadSize = new Vector3(1, 1) * grid.GetCellSize();
 
-                Tilemap.TilemapObject gridObject = grid.GetGridObject(x, y);
-                Tilemap.TilemapObject.TilemapSprite tilemapSprite = gridObject.GetTilemapSprite();
+                Cell gridObject = grid.GetGridObject(x, y);
+                Cell.TilemapSprite tilemapSprite = gridObject.GetTilemapSprite();
                 Vector2 gridUV00, gridUV11;
-                if (tilemapSprite == Tilemap.TilemapObject.TilemapSprite.None)
+                if (tilemapSprite == Cell.TilemapSprite.None)
                 {
                     gridUV00 = Vector2.zero;
                     gridUV11 = Vector2.zero;

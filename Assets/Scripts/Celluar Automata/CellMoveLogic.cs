@@ -1,32 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Tilemap.TilemapObject;
-
 public class CellMoveLogic : MonoBehaviour
 {
     [SerializeField] private TilemapVisual tilemapVisual;
     private Tilemap tilemap;
-    private TilemapSprite noneSprite;
-    private TilemapSprite tilemapSprite;
-    private Tilemap.TilemapObject tilemapObject;
+    private Cell.TilemapSprite noneSprite;
+    private Cell.TilemapSprite tilemapSprite;
+    private Cell tilemapObject;
     private float cellSize = 7f;
 
     private void Start()
     {
         tilemap = new Tilemap(10, 5, cellSize, Vector3.zero);
-        noneSprite = TilemapSprite.None;
         tilemap.SetTilemapVisual(tilemapVisual);
-        tilemap.SetTilemapSprite(9,4, TilemapSprite.Ground);
+        tilemap.SetTilemapSprite(9,4, Cell.TilemapSprite.Ground);
         tilemapObject = tilemap.GetTilemapObject(9,4);
-        InvokeRepeating("UpdateCellPos", 0.02f, 0.02f);
+        InvokeRepeating("UpdateCellPos",.1f,.1f);
     }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPosition = Utils.GetMouseWorldPosition();
-            tilemap.SetTilemapSprite(mouseWorldPosition, TilemapSprite.Ground);
+            tilemap.SetTilemapSprite(mouseWorldPosition, Cell.TilemapSprite.Ground);
+            tilemapObject = tilemap.GetTilemapObject(mouseWorldPosition);
+            InvokeRepeating("UpdateCellPos", .1f, .1f);
         }
     }
 
@@ -35,32 +34,34 @@ public class CellMoveLogic : MonoBehaviour
         Vector3Int xyPosDown = new Vector3Int(tilemapObject.X, tilemapObject.Y - 1, 0);
         Vector3Int xyPosDownLeft = new Vector3Int(tilemapObject.X - 1, tilemapObject.Y - 1, 0);
         Vector3Int xyPosDownRight = new Vector3Int(tilemapObject.X + 1, tilemapObject.Y - 1, 0);
-        Debug.Log(xyPosDown.y);
-        if (tilemap.GetTilemapObject(xyPosDown.x, xyPosDown.y).GetTilemapSprite() == TilemapSprite.None)
+        if (tilemap.GetTilemapObject(xyPosDown.x, xyPosDown.y).GetTilemapSprite() == Cell.TilemapSprite.None)
         {
             tilemapSprite = tilemapObject.GetTilemapSprite();
-            Debug.Log("Done");
             Vector3Int cellPos = new Vector3Int(tilemapObject.X, tilemapObject.Y);
-            tilemap.SetTilemapSprite(cellPos.x,cellPos.y, noneSprite);
+            tilemap.SetTilemapSprite(cellPos.x, cellPos.y, noneSprite);
             tilemap.SetTilemapSprite(xyPosDown.x, xyPosDown.y, tilemapSprite);
-            Debug.Log(tilemap.GetTilemapObject(xyPosDown.x, xyPosDown.y).GetTilemapSprite());
             tilemapObject = tilemap.GetTilemapObject(xyPosDown.x, xyPosDown.y);
         }
-        else if (tilemap.GetTilemapObject(xyPosDownLeft) == null)
+        else if (tilemap.GetTilemapObject(xyPosDownLeft).GetTilemapSprite() == Cell.TilemapSprite.None && xyPosDownLeft.x >= 0)
         {
-            Vector3 cellPos = new Vector3(tilemapObject.X, tilemapObject.Y);
-            tilemap.SetTilemapSprite(cellPos, noneSprite);
-            tilemap.SetTilemapSprite(xyPosDown, tilemapObject.GetTilemapSprite());
+            tilemapSprite = tilemapObject.GetTilemapSprite();
+            Vector3Int cellPos = new Vector3Int(tilemapObject.X, tilemapObject.Y);
+            tilemap.SetTilemapSprite(cellPos.x, cellPos.y, noneSprite);
+            tilemap.SetTilemapSprite(xyPosDownLeft.x, xyPosDownLeft.y, tilemapSprite);
+            tilemapObject = tilemap.GetTilemapObject(xyPosDownLeft.x, xyPosDownLeft.y);
         }
-        else if (tilemap.GetTilemapObject(xyPosDownRight) == null)
+        else if (tilemap.GetTilemapObject(xyPosDownRight).GetTilemapSprite() == Cell.TilemapSprite.None && xyPosDownRight.x <= 9)
         {
-            Vector3 cellPos = new Vector3(tilemapObject.X, tilemapObject.Y);
-            tilemap.SetTilemapSprite(cellPos, noneSprite);
-            tilemap.SetTilemapSprite(xyPosDown, tilemapObject.GetTilemapSprite());
+            tilemapSprite = tilemapObject.GetTilemapSprite();
+            Vector3Int cellPos = new Vector3Int(tilemapObject.X, tilemapObject.Y);
+            tilemap.SetTilemapSprite(cellPos.x, cellPos.y, noneSprite);
+            tilemap.SetTilemapSprite(xyPosDownRight.x, xyPosDownRight.y, tilemapSprite);
+            tilemapObject = tilemap.GetTilemapObject(xyPosDownRight.x, xyPosDownRight.y);
         }
-        else
+
+        if (tilemapObject.Y == 0)
         {
-            return;
+            CancelInvoke("UpdateCellPos");
         }
     }
 }

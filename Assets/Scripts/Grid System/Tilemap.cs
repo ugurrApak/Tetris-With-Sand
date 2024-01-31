@@ -3,28 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Tilemap
 {
-	private Grid<TilemapObject> grid;
+	public Grid<Cell> grid;
 	public Tilemap(int width, int height, float cellSize, Vector3 originPosition)
 	{
-		grid = new Grid<TilemapObject>(width, height, cellSize, originPosition, (Grid<TilemapObject> g, int x, int y) => new TilemapObject(g, x, y));
+		grid = new Grid<Cell>(width, height, cellSize, originPosition, (Grid<Cell> g, int x, int y) => new Cell(g, x, y));
 	}
 
-	public void SetTilemapSprite(Vector3 worldPosition, TilemapObject.TilemapSprite tilemapSprite)
+	public void SetTilemapSprite(Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
 	{
-		TilemapObject tilemapObject = grid.GetGridObject(worldPosition);
-		if (tilemapObject != null)
-		{
-			tilemapObject.SetTilemapSprite(tilemapSprite);
-		}
+		Cell tilemapObject = grid.GetGridObject(worldPosition);
+		tilemapObject.SetTilemapSprite(tilemapSprite);
 	}
 
-	public void SetTilemapSprite(int x, int y, TilemapObject.TilemapSprite tilemapSprite)
+	public void SetTilemapSprite(int x, int y, Cell.TilemapSprite tilemapSprite)
 	{
-        TilemapObject tilemapObject = grid.GetGridObject(x,y);
-        if (tilemapObject != null)
-        {
-            tilemapObject.SetTilemapSprite(tilemapSprite);
-        }
+        Cell tilemapObject = grid.GetGridObject(x,y);
+        tilemapObject.SetTilemapSprite(tilemapSprite);
     }
 
     public void SetTilemapVisual(TilemapVisual tilemapVisual)
@@ -32,68 +26,16 @@ public class Tilemap
         tilemapVisual.SetGrid(this, grid);
     }
 
-	public TilemapObject GetTilemapObject(int x, int y)
+	public Cell GetTilemapObject(int x, int y)
 	{
-		TilemapObject tilemapObject = grid.GetGridObject(x, y);
-		if (tilemapObject != null)
-		{
-			return tilemapObject;
-		}
-		else
-		{
-			return null;
-		}
+		Cell tilemapObject = grid.GetGridObject(x, y);
+		return tilemapObject;
 	}
 
-	public TilemapObject GetTilemapObject(Vector3 objectPos)
+	public Cell GetTilemapObject(Vector3 objectPos)
 	{
-		TilemapObject tilemapObject = grid.GetGridObject(objectPos);
-        if (tilemapObject != null)
-        {
-            return tilemapObject;
-        }
-        else
-        {
-            return null;
-        }
+		Cell tilemapObject = grid.GetGridObject(objectPos);
+		return tilemapObject;
     }
 
-
-    public class TilemapObject
-	{
-		public enum TilemapSprite
-		{
-			None,
-			Ground,
-			Path
-		}
-
-		private Grid<TilemapObject> grid;
-		private int x;
-		private int y;
-		private TilemapSprite tilemapSprite;
-
-        public int X { get => x; private set => x = value; }
-        public int Y { get => y; private set => y = value; }
-
-        public TilemapObject(Grid<TilemapObject> grid, int x, int y)
-		{
-			this.grid = grid;
-			this.x = x;
-			this.y = y;
-		}
-
-		public void SetTilemapSprite(TilemapSprite tilemapSprite)
-		{
-			this.tilemapSprite = tilemapSprite;
-            grid.TriggerGridObjectChanged(X, Y);
-        }
-
-        public TilemapSprite GetTilemapSprite() { return tilemapSprite; }
-
-        public override string ToString()
-        {
-            return tilemapSprite.ToString();
-        }
-    }
 }

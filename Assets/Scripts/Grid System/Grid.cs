@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 public class Grid<TGridObject>
 {
@@ -23,6 +24,7 @@ public class Grid<TGridObject>
         this.height = height;
         this.cellSize = cellSize;
         this.originPosition = originPosition;
+        
 
         gridArray = new TGridObject[width, height];
 
@@ -121,5 +123,18 @@ public class Grid<TGridObject>
         int x, y;
         GetXY(worldPosition, out x, out y);
         return GetGridObject(x, y);
+    }
+    public override string ToString()
+    {
+        string str = "\n";
+        for (int i = 0; i < gridArray.GetLength(0); i++)
+        {
+            for (int j = 0; j < gridArray.GetLength(1); j++)
+            {
+                str+= gridArray[i, j] + " ";
+            }
+            str+= "\n";
+        }
+        return str;
     }
 }
