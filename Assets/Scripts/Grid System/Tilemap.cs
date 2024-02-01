@@ -1,15 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-public class Tilemap
+public sealed class Tilemap : MonoBehaviour
 {
-	public Grid<Cell> grid;
-	public Tilemap(int width, int height, float cellSize, Vector3 originPosition)
-	{
-		grid = new Grid<Cell>(width, height, cellSize, originPosition, (Grid<Cell> g, int x, int y) => new Cell(g, x, y));
-	}
+	private Grid<Cell> grid;
+	[SerializeField] private int width, height;
+	[SerializeField] private float cellSize;
+	[SerializeField] private Vector3 originPosition;
 
-	public void SetTilemapSprite(Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
+    public static Tilemap Instance { get; private set; }
+
+    public int Width => width;
+	public int Height => height;
+	public float CellSize => cellSize;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+    private void Start()
+    {
+        grid = new Grid<Cell>(width, height, cellSize, originPosition, (Grid<Cell> g, int x, int y) => new Cell(g, x, y));
+    }
+
+    public void SetTilemapSprite(Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
 	{
 		Cell tilemapObject = grid.GetGridObject(worldPosition);
 		tilemapObject.SetTilemapSprite(tilemapSprite);
@@ -37,5 +58,4 @@ public class Tilemap
 		Cell tilemapObject = grid.GetGridObject(objectPos);
 		return tilemapObject;
     }
-
 }

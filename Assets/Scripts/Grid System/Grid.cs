@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 public class Grid<TGridObject>
@@ -16,8 +17,9 @@ public class Grid<TGridObject>
     private int height;
     private float cellSize;
     private Vector3 originPosition;
-    private TGridObject[,] gridArray;
+    private static TGridObject[,] gridArray;
 
+    public static TGridObject[,] GridArray => gridArray;
     public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject)
     {
         this.width = width;
