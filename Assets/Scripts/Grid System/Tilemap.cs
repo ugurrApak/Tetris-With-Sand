@@ -24,9 +24,6 @@ public sealed class Tilemap : MonoBehaviour
         {
             Instance = this;
         }
-    }
-    private void Start()
-    {
         grid = new Grid<Cell>(width, height, cellSize, originPosition, (Grid<Cell> g, int x, int y) => new Cell(g, x, y));
     }
 
