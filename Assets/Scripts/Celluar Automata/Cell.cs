@@ -50,20 +50,17 @@ public class Cell
             Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
             Tilemap.Instance.SetTilemapSprite(xyPosDown.x, xyPosDown.y, _tilemapSprite);
         }
-        else if (Tilemap.Instance.GetTilemapObject(xyPosDownLeft.x, xyPosDownLeft.y).GetTilemapSprite() == TilemapSprite.None && xyPosDownLeft.x >= 0)
+        else if (xyPosDownLeft.x >= 0 && Tilemap.Instance.GetTilemapObject(xyPosDownLeft.x, xyPosDownLeft.y).GetTilemapSprite() == TilemapSprite.None)
         {
             Vector3Int cellPos = new Vector3Int(x, y);
             Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
             Tilemap.Instance.SetTilemapSprite(xyPosDownLeft.x, xyPosDownLeft.y, _tilemapSprite);
         }
-        else if (xyPosDownRight.x <= 9)
+        else if (xyPosDownRight.x <= 9 && Tilemap.Instance.GetTilemapObject(xyPosDownRight.x, xyPosDownRight.y).GetTilemapSprite() == TilemapSprite.None)
         {
-            if (Tilemap.Instance.GetTilemapObject(xyPosDownRight.x, xyPosDownRight.y).GetTilemapSprite() == TilemapSprite.None)
-            {
-                Vector3Int cellPos = new Vector3Int(x, y);
-                Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
-                Tilemap.Instance.SetTilemapSprite(xyPosDownRight.x, xyPosDownRight.y, _tilemapSprite);
-            }
+            Vector3Int cellPos = new Vector3Int(x, y);
+            Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
+            Tilemap.Instance.SetTilemapSprite(xyPosDownRight.x, xyPosDownRight.y, _tilemapSprite);
         }
         else return;
     }

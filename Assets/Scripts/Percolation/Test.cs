@@ -19,7 +19,6 @@ public class Test : MonoBehaviour
                 {
                     if (Tilemap.Instance.GetTilemapObject(i,j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
                     {
-                        Debug.Log("Done");
                         perc.Open(i,j);
                     }
                 }
