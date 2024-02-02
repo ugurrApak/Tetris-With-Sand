@@ -96,7 +96,10 @@ public class Grid<TGridObject>
 
     public void TriggerGridObjectChanged(int x, int y)
     {
-        if (OnGridObjectChanged != null) OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
+        if (OnGridObjectChanged != null)
+        {
+            OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
+        }
     }
 
     public void SetGridObject(Vector3 worldPosition, TGridObject value)

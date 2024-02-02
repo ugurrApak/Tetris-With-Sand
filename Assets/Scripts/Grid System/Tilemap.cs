@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+
 public sealed class Tilemap : MonoBehaviour
 {
 	private Grid<Cell> grid;
@@ -29,14 +30,17 @@ public sealed class Tilemap : MonoBehaviour
 
     public void SetTilemapSprite(Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
 	{
-		Cell tilemapObject = grid.GetGridObject(worldPosition);
+        Cell tilemapObject = grid.GetGridObject(worldPosition);
 		tilemapObject.SetTilemapSprite(tilemapSprite);
-	}
+        StartCoroutine(Wait(tilemapSprite, tilemapObject));
+    }
 
 	public void SetTilemapSprite(int x, int y, Cell.TilemapSprite tilemapSprite)
 	{
         Cell tilemapObject = grid.GetGridObject(x,y);
         tilemapObject.SetTilemapSprite(tilemapSprite);
+        StartCoroutine(Wait(tilemapSprite,tilemapObject));
+
     }
 
     public void SetTilemapVisual(TilemapVisual tilemapVisual)
@@ -54,5 +58,13 @@ public sealed class Tilemap : MonoBehaviour
 	{
 		Cell tilemapObject = grid.GetGridObject(objectPos);
 		return tilemapObject;
+    }
+    IEnumerator Wait(Cell.TilemapSprite tilemapSprite, Cell tilemapObject)
+    {
+        yield return new WaitForSeconds(.2f);
+        if (tilemapSprite != Cell.TilemapSprite.None)
+        {
+            tilemapObject.UpdateCellPos(tilemapSprite);
+        }
     }
 }
