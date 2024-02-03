@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
@@ -36,7 +37,7 @@ public class Grid<TGridObject>
             }
         }
 
-        bool showDebug = true;
+        bool showDebug = false;
         if (showDebug)
         {
             //TextMesh[,] debugTextArray = new TextMesh[width, height];
@@ -126,6 +127,14 @@ public class Grid<TGridObject>
         int x, y;
         GetXY(worldPosition, out x, out y);
         return GetGridObject(x, y);
+    }
+    public void SetOriginPosition(Vector3 originPosition)
+    {
+        this.originPosition = originPosition;
+        if (OnGridObjectChanged != null)
+        {
+            OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { });
+        }
     }
     public override string ToString()
     {

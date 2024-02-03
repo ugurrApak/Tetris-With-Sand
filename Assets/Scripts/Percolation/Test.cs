@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
             {
                 for (int j = 0; j < Tilemap.Instance.Height; j++)
                 {
-                    if (Tilemap.Instance.GetTilemapObject(i,j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
+                    if (Tilemap.Instance.GetTilemapObject(Tilemap.Instance.Grid, i,j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
                     {
                         perc.Open(i,j);
                     }

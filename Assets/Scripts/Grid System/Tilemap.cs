@@ -5,7 +5,7 @@ using UnityEngine;
 
 public sealed class Tilemap : MonoBehaviour
 {
-	private Grid<Cell> grid;
+	private Grid<IGridObject> grid;
 	[SerializeField] private int width, height;
 	[SerializeField] private float cellSize;
 	[SerializeField] private Vector3 originPosition;
@@ -15,6 +15,7 @@ public sealed class Tilemap : MonoBehaviour
     public int Width => width;
 	public int Height => height;
 	public float CellSize => cellSize;
+    public Grid<IGridObject> Grid => grid;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -25,43 +26,44 @@ public sealed class Tilemap : MonoBehaviour
         {
             Instance = this;
         }
-        grid = new Grid<Cell>(width, height, cellSize, originPosition, (Grid<Cell> g, int x, int y) => new Cell(g, x, y));
+
+        grid = new Grid<IGridObject>(width, height, cellSize, originPosition, (Grid<IGridObject> g, int x, int y) => new Cell(g, x, y));
     }
 
-    public void SetTilemapSprite(Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
+    public void SetTilemapSprite(Grid<IGridObject> grid, Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
 	{
-        Cell tilemapObject = grid.GetGridObject(worldPosition);
+        IGridObject tilemapObject = grid.GetGridObject(worldPosition);
 		tilemapObject.SetTilemapSprite(tilemapSprite);
         StartCoroutine(Wait(tilemapSprite, tilemapObject));
     }
 
-	public void SetTilemapSprite(int x, int y, Cell.TilemapSprite tilemapSprite)
-	{
-        Cell tilemapObject = grid.GetGridObject(x,y);
+	public void SetTilemapSprite(Grid<IGridObject> grid, int x, int y, Cell.TilemapSprite tilemapSprite)
+    {
+        IGridObject tilemapObject = grid.GetGridObject(x,y);
         tilemapObject.SetTilemapSprite(tilemapSprite);
         StartCoroutine(Wait(tilemapSprite,tilemapObject));
 
     }
 
-    public void SetTilemapVisual(TilemapVisual tilemapVisual)
+    public void SetTilemapVisual(Grid<IGridObject> grid, TilemapVisual tilemapVisual)
     {
         tilemapVisual.SetGrid(this, grid);
     }
 
-	public Cell GetTilemapObject(int x, int y)
+	public IGridObject GetTilemapObject(Grid<IGridObject> grid, int x, int y)
 	{
-		Cell tilemapObject = grid.GetGridObject(x, y);
+		IGridObject tilemapObject = grid.GetGridObject(x, y);
 		return tilemapObject;
 	}
 
-	public Cell GetTilemapObject(Vector3 objectPos)
+	public IGridObject GetTilemapObject(Grid<IGridObject> grid, Vector3 objectPos)
 	{
-		Cell tilemapObject = grid.GetGridObject(objectPos);
+		IGridObject tilemapObject = grid.GetGridObject(objectPos);
 		return tilemapObject;
     }
-    IEnumerator Wait(Cell.TilemapSprite tilemapSprite, Cell tilemapObject)
+    IEnumerator Wait(Cell.TilemapSprite tilemapSprite, IGridObject tilemapObject) 
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.02f);
         if (tilemapSprite != Cell.TilemapSprite.None)
         {
             tilemapObject.UpdateCellPos(tilemapSprite);

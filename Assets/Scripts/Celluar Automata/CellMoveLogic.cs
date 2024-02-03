@@ -7,15 +7,15 @@ public class CellMoveLogic : MonoBehaviour
 
     private void Start()
     {
-        Tilemap.Instance.SetTilemapVisual(tilemapVisual);
+        Tilemap.Instance.SetTilemapVisual(Tilemap.Instance.Grid, tilemapVisual);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             Vector3 mouseWorldPosition = Utils.GetMouseWorldPosition();
-            Tilemap.Instance.SetTilemapSprite(mouseWorldPosition, Cell.TilemapSprite.Ground);
+            Tilemap.Instance.SetTilemapSprite(Tilemap.Instance.Grid, mouseWorldPosition, Cell.TilemapSprite.Ground);
         }
     }
 }

@@ -19,7 +19,7 @@ public class TilemapVisual : MonoBehaviour
     }
 
     [SerializeField] private TilemapSpriteUV[] tilemapSpriteUVArray;
-    private Grid<Cell> grid;
+    private Grid<IGridObject> grid;
     private Mesh mesh;
     private bool updateMesh;
     private Dictionary<Cell.TilemapSprite, UVCoords> uvCoordsDictionary;
@@ -45,7 +45,7 @@ public class TilemapVisual : MonoBehaviour
         }
     }
 
-    public void SetGrid(Tilemap tilemap, Grid<Cell> grid)
+    public void SetGrid(Tilemap tilemap, Grid<IGridObject> grid) 
     {
         this.grid = grid;
         UpdateTileMapVisual();
@@ -59,7 +59,7 @@ public class TilemapVisual : MonoBehaviour
         updateMesh = true;
     }
 
-    private void Grid_OnGridValueChanged(object sender, Grid<Cell>.OnGridObjectChangedEventArgs e)
+    private void Grid_OnGridValueChanged(object sender, Grid<IGridObject>.OnGridObjectChangedEventArgs e)
     {
         updateMesh = true;
     }
@@ -84,7 +84,7 @@ public class TilemapVisual : MonoBehaviour
                 int index = x * grid.GetHeight() + y;
                 Vector3 quadSize = new Vector3(1, 1) * grid.GetCellSize();
 
-                Cell gridObject = grid.GetGridObject(x, y);
+                IGridObject gridObject = grid.GetGridObject(x, y);
                 Cell.TilemapSprite tilemapSprite = gridObject.GetTilemapSprite();
                 Vector2 gridUV00, gridUV11;
                 if (tilemapSprite == Cell.TilemapSprite.None)
