@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -19,10 +20,11 @@ public class Cell : IGridObject
     private int y;
     private TilemapSprite tilemapSprite;
     private MonoBehaviour mb;
-
+    private bool canMove = true;
     public int X { get => x; private set => x = value; }
     public int Y { get => y; private set => y = value; }
 
+    public bool CanMove { get => canMove; private set => canMove = value; }
     public Cell(Grid<IGridObject> grid, int x, int y)
     {
         this.grid = grid;
@@ -30,12 +32,24 @@ public class Cell : IGridObject
         this.y = y;
         StartCoroutine();
     }
+    public void StopCoroutine()
+    {
+        mb = GameObject.FindObjectOfType<MonoBehaviour>();
+        if (mb != null)
+        {
+            mb.StopAllCoroutines();
+        }
+        else
+        {
+            Debug.Log("Object not found.");
+        }
+    }
     public void StartCoroutine()
     {
         mb = GameObject.FindObjectOfType<MonoBehaviour>();
         if (mb != null)
         {
-            mb.StartCoroutine(Wait());
+            mb.StartCoroutine(WaitForCellMove());
         }
         else
         {
@@ -48,9 +62,7 @@ public class Cell : IGridObject
         this.tilemapSprite = tilemapSprite;
         grid.TriggerGridObjectChanged(x, y);
     }
-
     public TilemapSprite GetTilemapSprite() { return tilemapSprite; }
-
     public void UpdateCellPos(TilemapSprite _tilemapSprite)
     {
         Vector3Int xyPosDown = new Vector3Int(x, y - 1, 0);
@@ -58,40 +70,45 @@ public class Cell : IGridObject
         Vector3Int xyPosDownRight = new Vector3Int(x + 1, y - 1, 0);
         if (xyPosDown.y < 0)
         {
+            canMove = false;
             return;
         }
-        if (Tilemap.Instance.GetTilemapObject(grid, xyPosDown.x, xyPosDown.y).GetTilemapSprite() == TilemapSprite.None)
+        if (grid.GetGridObject(xyPosDown.x, xyPosDown.y).GetTilemapSprite() == TilemapSprite.None)
         {
             Vector3Int cellPos = new Vector3Int(x, y);
-            Tilemap.Instance.SetTilemapSprite(grid, cellPos.x, cellPos.y, TilemapSprite.None);
-            Tilemap.Instance.SetTilemapSprite(grid, xyPosDown.x, xyPosDown.y, _tilemapSprite);
+            Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
+            Tilemap.Instance.SetTilemapSprite(xyPosDown.x, xyPosDown.y, _tilemapSprite);
         }
-        else if (xyPosDownLeft.x >= 0 && Tilemap.Instance.GetTilemapObject(grid, xyPosDownLeft.x, xyPosDownLeft.y).GetTilemapSprite() == TilemapSprite.None)
+        else if (xyPosDownLeft.x >= 0 && grid.GetGridObject(xyPosDownLeft.x, xyPosDownLeft.y).GetTilemapSprite() == TilemapSprite.None)
         {
             Vector3Int cellPos = new Vector3Int(x, y);
-            Tilemap.Instance.SetTilemapSprite(grid, cellPos.x, cellPos.y, TilemapSprite.None);
-            Tilemap.Instance.SetTilemapSprite(grid, xyPosDownLeft.x, xyPosDownLeft.y, _tilemapSprite);
+            Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
+            Tilemap.Instance.SetTilemapSprite(xyPosDownLeft.x, xyPosDownLeft.y, _tilemapSprite);
         }
-        else if (xyPosDownRight.x <= Tilemap.Instance.Height && Tilemap.Instance.GetTilemapObject(grid, xyPosDownRight.x, xyPosDownRight.y).GetTilemapSprite() == TilemapSprite.None)
+        else if (xyPosDownRight.x <= Tilemap.Instance.Height && grid.GetGridObject(xyPosDownRight.x, xyPosDownRight.y).GetTilemapSprite() == TilemapSprite.None)
         {
             Vector3Int cellPos = new Vector3Int(x, y);
-            Tilemap.Instance.SetTilemapSprite(grid, cellPos.x, cellPos.y, TilemapSprite.None);
-            Tilemap.Instance.SetTilemapSprite(grid, xyPosDownRight.x, xyPosDownRight.y, _tilemapSprite);
+            Tilemap.Instance.SetTilemapSprite(cellPos.x, cellPos.y, TilemapSprite.None);
+            Tilemap.Instance.SetTilemapSprite(xyPosDownRight.x, xyPosDownRight.y, _tilemapSprite);
+        }
+        else if(!grid.GetGridObject(xyPosDown.x,xyPosDown.y).CanMove && !grid.GetGridObject(xyPosDownLeft.x, xyPosDownLeft.y).CanMove && !grid.GetGridObject(xyPosDownRight.x, xyPosDownRight.y).CanMove)
+        {
+            canMove = false;
         }
     }
     public override string ToString()
     {
         return tilemapSprite.ToString();
     }
-    IEnumerator Wait()
+    IEnumerator WaitForCellMove()
     {
-        while (true)
+        while (canMove /*&& tilemapSprite != TilemapSprite.None*/)
         {
-            yield return new WaitForSeconds(.02f);
-            if (tilemapSprite != Cell.TilemapSprite.None)
+            if (tilemapSprite != TilemapSprite.None)
             {
                 UpdateCellPos(tilemapSprite);
             }
+            yield return new WaitForSeconds(.02f);
         }
     }
 }

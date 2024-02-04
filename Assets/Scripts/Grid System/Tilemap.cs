@@ -30,44 +30,31 @@ public sealed class Tilemap : MonoBehaviour
 
         grid = new Grid<IGridObject>(width, height, cellSize, originPosition, (Grid<IGridObject> g, int x, int y) => new Cell(g, x, y));
     }
-
-    public void SetTilemapSprite(Grid<IGridObject> grid, Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
+    public void SetTilemapSprite(Vector3 worldPosition, Cell.TilemapSprite tilemapSprite)
 	{
         IGridObject tilemapObject = grid.GetGridObject(worldPosition);
 		tilemapObject.SetTilemapSprite(tilemapSprite);
         //StartCoroutine(Wait(tilemapSprite, tilemapObject));
     }
-
-	public void SetTilemapSprite(Grid<IGridObject> grid, int x, int y, Cell.TilemapSprite tilemapSprite)
+	public void SetTilemapSprite(int x, int y, Cell.TilemapSprite tilemapSprite)
     {
         IGridObject tilemapObject = grid.GetGridObject(x,y);
         tilemapObject.SetTilemapSprite(tilemapSprite);
         //StartCoroutine(Wait(tilemapSprite,tilemapObject));
 
     }
-
-    public void SetTilemapVisual(Grid<IGridObject> grid, TilemapVisual tilemapVisual)
+    public void SetTilemapVisual(TilemapVisual tilemapVisual)
     {
         tilemapVisual.SetGrid(this, grid);
     }
-
-	public IGridObject GetTilemapObject(Grid<IGridObject> grid, int x, int y)
+	public IGridObject GetTilemapObject(int x, int y)
 	{
 		IGridObject tilemapObject = grid.GetGridObject(x, y);
 		return tilemapObject;
 	}
-
-	public IGridObject GetTilemapObject(Grid<IGridObject> grid, Vector3 objectPos)
+	public IGridObject GetTilemapObject(Vector3 objectPos)
 	{
 		IGridObject tilemapObject = grid.GetGridObject(objectPos);
 		return tilemapObject;
-    }
-    IEnumerator Wait(Cell.TilemapSprite tilemapSprite, IGridObject tilemapObject) 
-    {
-        yield return new WaitForSeconds(.02f);
-        if (tilemapSprite != Cell.TilemapSprite.None)
-        {
-            tilemapObject.UpdateCellPos(tilemapSprite);
-        }
     }
 }

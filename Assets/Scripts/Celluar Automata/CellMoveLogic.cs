@@ -8,7 +8,7 @@ public class CellMoveLogic : MonoBehaviour
 
     private void Start()
     {
-        Tilemap.Instance.SetTilemapVisual(Tilemap.Instance.Grid, tilemapVisual);
+        Tilemap.Instance.SetTilemapVisual(tilemapVisual);
         o_Block = new O_Block(Tilemap.Instance.Grid);
     }
 
@@ -17,16 +17,12 @@ public class CellMoveLogic : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0))
         {
             Vector3 mouseWorldPosition = Utils.GetMouseWorldPosition();
-            Tilemap.Instance.SetTilemapSprite(Tilemap.Instance.Grid, mouseWorldPosition, Cell.TilemapSprite.Ground);
+            Tilemap.Instance.SetTilemapSprite(mouseWorldPosition, Cell.TilemapSprite.Ground);
         }
-    }
-    private void FixedUpdate()
-    {
-        StartCoroutine(Wait());
-    }
-    IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(.1f);
-        o_Block.UpdateCellPos(Cell.TilemapSprite.Path);
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            Vector3 mouseWorldPosition = Utils.GetMouseWorldPosition();
+            Tilemap.Instance.SetTilemapSprite(mouseWorldPosition, Cell.TilemapSprite.None);
+        }
     }
 }
