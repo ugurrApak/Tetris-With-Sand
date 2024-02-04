@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,6 +18,7 @@ public class Cell : IGridObject
     private int x;
     private int y;
     private TilemapSprite tilemapSprite;
+    private MonoBehaviour mb;
 
     public int X { get => x; private set => x = value; }
     public int Y { get => y; private set => y = value; }
@@ -26,6 +28,19 @@ public class Cell : IGridObject
         this.grid = grid;
         this.x = x;
         this.y = y;
+        StartCoroutine();
+    }
+    public void StartCoroutine()
+    {
+        mb = GameObject.FindObjectOfType<MonoBehaviour>();
+        if (mb != null)
+        {
+            mb.StartCoroutine(Wait());
+        }
+        else
+        {
+            Debug.Log("Object not found.");
+        }
     }
 
     public void SetTilemapSprite(TilemapSprite tilemapSprite)
@@ -67,5 +82,16 @@ public class Cell : IGridObject
     public override string ToString()
     {
         return tilemapSprite.ToString();
+    }
+    IEnumerator Wait()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.02f);
+            if (tilemapSprite != Cell.TilemapSprite.None)
+            {
+                UpdateCellPos(tilemapSprite);
+            }
+        }
     }
 }

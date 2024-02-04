@@ -11,22 +11,16 @@ public class Test : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        for (int i = 0; i < Tilemap.Instance.Width; i++)
         {
-            for (int i = 0; i < Tilemap.Instance.Width; i++)
+            for (int j = 0; j < Tilemap.Instance.Height; j++)
             {
-                for (int j = 0; j < Tilemap.Instance.Height; j++)
+                if (Tilemap.Instance.GetTilemapObject(Tilemap.Instance.Grid, i, j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
                 {
-                    if (Tilemap.Instance.GetTilemapObject(Tilemap.Instance.Grid, i,j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
-                    {
-                        perc.Open(i,j);
-                    }
+                    perc.Open(i, j);
                 }
             }
         }
-        if (Input.GetMouseButtonUp(1))
-        {
-            Debug.Log(perc.Percolates());
-        }
+        Debug.Log(perc.Percolates());
     }
 }
