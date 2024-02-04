@@ -1,16 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class O_Block
+public class O_Block : Block
 {
-    private int[,] blockArray;
-	private Grid<Block> grid;
-	public O_Block()
-	{
-		blockArray = new int[2,4] { { 0, 1, 1, 0}, {0, 1, 1, 0 } };
-		grid = new Grid<Block>(4,2,3, new Vector3(Tilemap.Instance.Width/2, Tilemap.Instance.Height),(Grid<Block> g, int x, int y) => new Block(g,x,y,Cell.TilemapSprite.Path));
-	}
+	private float cellSizeMultiplier;
+	private Vector3 originPosition;
+	private Cell.TilemapSprite tilemapSprite = Cell.TilemapSprite.Path;
+	private bool[,] blocks = new bool[2, 4] { 
+			{false, true, true, false },
+			{false, true, true, false } };
 
+public Grid<IGridObject> Grid => grid;
+	public O_Block(Grid<IGridObject> grid) : base(grid)
+	{
+		CreateBlock(blocks,tilemapSprite);
+    }
+	//  public void SetTilemapSprite(Cell.TilemapSprite tilemapSprite)
+	//  {
+	//for (int i = 0; i < blocks.GetLength(0); i++)
+	//{
+	//	for (int j = 0; j < blocks.GetLength(1); j++)
+	//	{
+	//		if (blocks[i, j] != null)
+	//		{
+	//			blocks[i, j].SetTilemapSprite(tilemapSprite,j + 1,i + 1);
+	//              }
+	//	}
+	//}
+	//  }
+	//public void UpdateCellPos(Cell.TilemapSprite tilemapSprite)
+	//{
+	//	for (int i = 0; i < blocks.GetLength(0); i++)
+	//	{
+	//		for (int j = 0; j < blocks.GetLength(1); j++)
+	//		{
+	//			if (blocks[i, j] != null)
+	//			{
+	//				blocks[i, j].UpdateCellPos(tilemapSprite);
+	//			}
+	//		}
+	//	}
+	//}
 }

@@ -15,6 +15,7 @@ public sealed class Tilemap : MonoBehaviour
     public int Width => width;
 	public int Height => height;
 	public float CellSize => cellSize;
+    public Vector3 OriginPosition => originPosition;
     public Grid<IGridObject> Grid => grid;
     private void Awake()
     {

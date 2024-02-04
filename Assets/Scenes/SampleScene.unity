@@ -281,9 +281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a51db6f01e3ff542ada0f1a8aa5dddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 5
-  cellSize: 7
+  width: 50
+  height: 100
+  cellSize: 0.5
   originPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1548382644
 Transform:
