@@ -18,7 +18,7 @@ public class Test : MonoBehaviour
         {
             for (int j = 0; j < Tilemap.Instance.Height; j++)
             {
-                if (Tilemap.Instance.GetTilemapObject(i, j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
+                if (Tilemap.Instance.GetTilemapObject(i, j).GetTilemapSprite() == Cell.TilemapSprite.Path)
                 {
                     perc.Open(i, j);
                 }
@@ -31,14 +31,14 @@ public class Test : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (perc.Percolates())
-        {
-            foreach (var item in perc.GetConnectedCoords())
-            {
-                Tilemap.Instance.SetTilemapSprite(item.x, item.y, Cell.TilemapSprite.None);
-            }
-            perc.ClearAllConnections();
-        }
+        //if (perc.Percolates())
+        //{
+        //    foreach (var item in perc.GetConnectedCoords())
+        //    {
+        //        Tilemap.Instance.SetTilemapSprite(item.x, item.y, Cell.TilemapSprite.None);
+        //    }
+        //    perc.ClearAllConnections();
+        //}
     }
     private void Move()
     {

@@ -30,7 +30,6 @@ public class Cell : IGridObject
         this.grid = grid;
         this.x = x;
         this.y = y;
-        //StartCoroutine(tilemapSprite);
     }
     public void StartCoroutine(TilemapSprite tilemapSprite)
     {
@@ -100,7 +99,7 @@ public class Cell : IGridObject
         while (canMove && this.tilemapSprite != TilemapSprite.None)
         {
             Debug.Log(canMove);
-            yield return new WaitForSeconds(.02f);
+            yield return new WaitForSeconds(.036f);
             if (this.tilemapSprite != TilemapSprite.None)
             {
                 UpdateCellPos(tilemapSprite);

@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Percolation
 {
-    private Cell.TilemapSprite sprite;
     private int lengthX;
     private int lengthY;
     private bool[] states;
@@ -116,7 +115,6 @@ public class Percolation
     }
     private Vector2Int xto2D(int x)
     {
-        Debug.Log(new Vector2Int(x % (lengthX - 1), (x - (x % (lengthX - 1))) / (lengthX - 1)));
         return new Vector2Int(x % (lengthX - 1), (x - (x % (lengthX - 1))) / (lengthX - 1));
     }
 }
