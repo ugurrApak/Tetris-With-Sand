@@ -34,14 +34,11 @@ public sealed class Tilemap : MonoBehaviour
 	{
         IGridObject tilemapObject = grid.GetGridObject(worldPosition);
 		tilemapObject.SetTilemapSprite(tilemapSprite);
-        //StartCoroutine(Wait(tilemapSprite, tilemapObject));
     }
 	public void SetTilemapSprite(int x, int y, Cell.TilemapSprite tilemapSprite)
     {
         IGridObject tilemapObject = grid.GetGridObject(x,y);
         tilemapObject.SetTilemapSprite(tilemapSprite);
-        //StartCoroutine(Wait(tilemapSprite,tilemapObject));
-
     }
     public void SetTilemapVisual(TilemapVisual tilemapVisual)
     {

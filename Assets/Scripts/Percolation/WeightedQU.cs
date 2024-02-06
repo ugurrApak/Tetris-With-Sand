@@ -7,15 +7,11 @@ public class WeightedQU
 {
     private int[] parent;
 	private int[] size;
-	private int count;
-
-	public int Count => count;
 
 	public WeightedQU(int n)
 	{
 		parent = new int[n];
 		size = new int[n];
-		count = n;
 		for (int i = 0; i < n; i++)
 		{
 			parent[i] = i;
@@ -62,8 +58,17 @@ public class WeightedQU
 			parent[rootQ] = rootP;
 			size[rootP] += size[rootQ];
 		}
-		count--;
 	}
+	public void ClearAll()
+	{
+		parent = new int[parent.Length];
+		size = new int[size.Length];
+        for (int i = 0; i < parent.Length; i++)
+        {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
 	private void Validate(int p)
 	{
 		int n = parent.Length;

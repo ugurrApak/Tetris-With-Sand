@@ -8,7 +8,7 @@ public interface IGridObject
     void SetTilemapSprite(Cell.TilemapSprite tilemapSprite);
     void UpdateCellPos(Cell.TilemapSprite tilemapSprite);
     Cell.TilemapSprite GetTilemapSprite();
-    void StartCoroutine();
+    void StartCoroutine(Cell.TilemapSprite tilemapSprite);
     public int X { get; }
     public int Y { get; }
     public bool CanMove { get; }

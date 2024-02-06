@@ -82,6 +82,26 @@ public class Percolation
     {
         return connections.Connected(lengthY * lengthX, lengthX * lengthY + 1);
     }
+    public void ClearAllConnections()
+    {
+        connections.ClearAll();
+    }
+    public List<Vector2Int> GetConnectedCoords()
+    {
+        List<Vector2Int> connectedCoords = new List<Vector2Int>();
+        for (int i = 0; i < lengthX * lengthY; i++)
+        {
+            if (states[i])
+            {
+                Vector2Int xy = xto2D(i);
+                if (isFull(xy.x,xy.y))
+                {
+                    connectedCoords.Add(xy);
+                }
+            }
+        }
+        return connectedCoords;
+    }
     private void Validate(int i, int j)
     {
         if (i > lengthX || i < 0 || j > lengthY || j < 0)
@@ -93,5 +113,10 @@ public class Percolation
     private int xyto1D(int i, int j)
     {
         return lengthX * j + i;
+    }
+    private Vector2Int xto2D(int x)
+    {
+        Debug.Log(new Vector2Int(x % (lengthX - 1), (x - (x % (lengthX - 1))) / (lengthX - 1)));
+        return new Vector2Int(x % (lengthX - 1), (x - (x % (lengthX - 1))) / (lengthX - 1));
     }
 }
