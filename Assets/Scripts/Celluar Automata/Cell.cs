@@ -58,6 +58,7 @@ public class Cell : IGridObject
         if (xyPosDown.y < 0)
         {
             canMove = false;
+            CellMoveLogic.perc.Update(x, y);
             return;
         }
         if (grid.GetGridObject(xyPosDown.x, xyPosDown.y).GetTilemapSprite() == TilemapSprite.None)
@@ -84,10 +85,12 @@ public class Cell : IGridObject
         else if(!grid.GetGridObject(xyPosDown.x,xyPosDown.y).CanMove && (xyPosDownLeft.x < 0 || xyPosDownRight.x >= Tilemap.Instance.Width))
         {
             canMove = false;
+            CellMoveLogic.perc.Update(x, y);
         }
         else if (!grid.GetGridObject(xyPosDown.x, xyPosDown.y).CanMove && !grid.GetGridObject(xyPosDownLeft.x, xyPosDownLeft.y).CanMove && !grid.GetGridObject(xyPosDownRight.x, xyPosDownRight.y).CanMove)
         {
             canMove = false;
+            CellMoveLogic.perc.Update(x, y);
         }
     }
     public override string ToString()
@@ -98,7 +101,6 @@ public class Cell : IGridObject
     {
         while (canMove && this.tilemapSprite != TilemapSprite.None)
         {
-            Debug.Log(canMove);
             yield return new WaitForSeconds(.036f);
             if (this.tilemapSprite != TilemapSprite.None)
             {

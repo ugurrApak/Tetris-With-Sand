@@ -9,21 +9,25 @@ public class Test : MonoBehaviour
     Block o_Block;
     private void Awake()
     {
-        perc = new Percolation();
         InvokeRepeating("Move", .01f, .01f);
+        //perc = new Percolation();
+    }
+    private void Start()
+    {
+        //StartCoroutine(perc.Wait());
     }
     private void Update()
     {
-        for (int i = 0; i < Tilemap.Instance.Width; i++)
-        {
-            for (int j = 0; j < Tilemap.Instance.Height; j++)
-            {
-                if (Tilemap.Instance.GetTilemapObject(i, j).GetTilemapSprite() == Cell.TilemapSprite.Path)
-                {
-                    perc.Open(i, j);
-                }
-            }
-        }
+        //for (int i = 0; i < Tilemap.Instance.Width; i++)
+        //{
+        //    for (int j = 0; j < Tilemap.Instance.Height; j++)
+        //    {
+        //        if (Tilemap.Instance.GetTilemapObject(i, j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
+        //        {
+        //            perc.Open(i, j);
+        //        }
+        //    }
+        //}
         if (Input.GetMouseButtonDown(0))
         {
             o_Block = new O_Block(Tilemap.Instance.Grid);
@@ -31,6 +35,7 @@ public class Test : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Debug.Log(perc.Percolates());
         //if (perc.Percolates())
         //{
         //    foreach (var item in perc.GetConnectedCoords())

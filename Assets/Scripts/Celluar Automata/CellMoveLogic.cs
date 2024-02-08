@@ -5,10 +5,13 @@ public class CellMoveLogic : MonoBehaviour
 {
     [SerializeField] private TilemapVisual tilemapVisual;
     private Block o_Block;
+    public static Percolation perc;
 
     private void Start()
     {
         Tilemap.Instance.SetTilemapVisual(tilemapVisual);
+        perc = new Percolation();
+        //StartCoroutine(perc.Wait());
     }
 
     private void Update()
