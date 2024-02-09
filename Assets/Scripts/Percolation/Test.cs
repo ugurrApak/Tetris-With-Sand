@@ -5,45 +5,29 @@ using UnityEngine.PlayerLoop;
 
 public class Test : MonoBehaviour
 {
-    Percolation perc;
-    Block o_Block;
-    private void Awake()
-    {
-        InvokeRepeating("Move", .01f, .01f);
-        //perc = new Percolation();
-    }
+    private Block o_Block;
+    [SerializeField] private TilemapVisual tilemapVisual;
+    private Percolation perc;
+
     private void Start()
     {
-        //StartCoroutine(perc.Wait());
+        Tilemap.Instance.SetTilemapVisual(tilemapVisual);
+        perc = new Percolation();
+        StartCoroutine(perc.Wait());
     }
     private void Update()
     {
-        //for (int i = 0; i < Tilemap.Instance.Width; i++)
-        //{
-        //    for (int j = 0; j < Tilemap.Instance.Height; j++)
-        //    {
-        //        if (Tilemap.Instance.GetTilemapObject(i, j).GetTilemapSprite() == Cell.TilemapSprite.Ground)
-        //        {
-        //            perc.Open(i, j);
-        //        }
-        //    }
-        //}
         if (Input.GetMouseButtonDown(0))
         {
+            CancelInvoke();
             o_Block = new O_Block(Tilemap.Instance.Grid);
+            InvokeRepeating("Move", .01f, .01f);
         }
-    }
-    private void FixedUpdate()
-    {
-        //Debug.Log(perc.Percolates());
-        //if (perc.Percolates())
-        //{
-        //    foreach (var item in perc.GetConnectedCoords())
-        //    {
-        //        Tilemap.Instance.SetTilemapSprite(item.x, item.y, Cell.TilemapSprite.None);
-        //    }
-        //    perc.ClearAllConnections();
-        //}
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            Vector3 mouseWorldPosition = Utils.GetMouseWorldPosition();
+            Tilemap.Instance.SetTilemapSprite(mouseWorldPosition, Cell.TilemapSprite.None);
+        }
     }
     private void Move()
     {

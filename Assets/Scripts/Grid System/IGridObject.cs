@@ -11,5 +11,5 @@ public interface IGridObject
     void StartCoroutine(Cell.TilemapSprite tilemapSprite);
     public int X { get; }
     public int Y { get; }
-    public bool CanMove { get; }
+    public bool CanMove { get; set; }
 }

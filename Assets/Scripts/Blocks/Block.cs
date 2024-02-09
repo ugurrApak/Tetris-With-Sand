@@ -73,6 +73,17 @@ public abstract class Block
                                 }
                             }
                         }
+                        //for (int k = blockArray.GetLength(0) - 1; k <= 0; k++)
+                        //{
+                        //    for (int l = blockArray.GetLength(1) - 1; l <= 0; l++)
+                        //    {
+                        //        if (blockArray[k, l] != Vector2Int.zero)
+                        //        {
+                        //            grid.GetGridObject(blockArray[k, l].x, blockArray[k, l].y).StartCoroutine(tilemapSprite);
+                        //            canMove = false;
+                        //        }
+                        //    }
+                        //}
 
                         return;
                     }

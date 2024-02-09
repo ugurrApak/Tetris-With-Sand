@@ -24,7 +24,8 @@ public class Cell : IGridObject
     public int X { get => x; private set => x = value; }
     public int Y { get => y; private set => y = value; }
 
-    public bool CanMove { get => canMove; private set => canMove = value; }
+    public bool CanMove { get => canMove; set => canMove = value; }
+
     public Cell(Grid<IGridObject> grid, int x, int y)
     {
         this.grid = grid;
@@ -43,7 +44,6 @@ public class Cell : IGridObject
             Debug.Log("Object not found.");
         }
     }
-
     public void SetTilemapSprite(TilemapSprite tilemapSprite)
     {
         this.tilemapSprite = tilemapSprite;
@@ -55,10 +55,10 @@ public class Cell : IGridObject
         Vector3Int xyPosDown = new Vector3Int(x, y - 1, 0);
         Vector3Int xyPosDownLeft = new Vector3Int(x - 1, y - 1, 0);
         Vector3Int xyPosDownRight = new Vector3Int(x + 1, y - 1, 0);
+        //CellMoveLogic.perc.UpdateStates(x,y);
         if (xyPosDown.y < 0)
         {
             canMove = false;
-            CellMoveLogic.perc.Update(x, y);
             return;
         }
         if (grid.GetGridObject(xyPosDown.x, xyPosDown.y).GetTilemapSprite() == TilemapSprite.None)
@@ -85,12 +85,12 @@ public class Cell : IGridObject
         else if(!grid.GetGridObject(xyPosDown.x,xyPosDown.y).CanMove && (xyPosDownLeft.x < 0 || xyPosDownRight.x >= Tilemap.Instance.Width))
         {
             canMove = false;
-            CellMoveLogic.perc.Update(x, y);
+            //CellMoveLogic.perc.UpdateStates(x, y);
         }
         else if (!grid.GetGridObject(xyPosDown.x, xyPosDown.y).CanMove && !grid.GetGridObject(xyPosDownLeft.x, xyPosDownLeft.y).CanMove && !grid.GetGridObject(xyPosDownRight.x, xyPosDownRight.y).CanMove)
         {
             canMove = false;
-            CellMoveLogic.perc.Update(x, y);
+            //CellMoveLogic.perc.UpdateStates(x, y);
         }
     }
     public override string ToString()
@@ -107,5 +107,7 @@ public class Cell : IGridObject
                 UpdateCellPos(tilemapSprite);
             }
         }
+        //CellMoveLogic.perc.UpdateStates(x, y);
+        //CellMoveLogic.perc.ConnectAllSites();
     }
 }
