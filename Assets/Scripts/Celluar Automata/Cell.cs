@@ -96,7 +96,7 @@ public class Cell : IGridObject
     }
     IEnumerator WaitForCellMove(TilemapSprite tilemapSprite)
     {
-        while (canMove && this.tilemapSprite != TilemapSprite.None)
+        while (/*canMove &&*/ this.tilemapSprite != TilemapSprite.None)
         {
             yield return new WaitForSeconds(.036f);
             if (this.tilemapSprite != TilemapSprite.None)
