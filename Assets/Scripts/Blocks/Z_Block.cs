@@ -11,7 +11,7 @@ public class Z_Block : Block
     public Grid<IGridObject> Grid => grid;
     public Z_Block(Grid<IGridObject> grid) : base(grid)
     {
-        tilemapSprite = Cell.TilemapSprite.Path;
+        tilemapSprite = Cell.TilemapSprite.Z;
         CreateBlock(blocks);
     }
 }

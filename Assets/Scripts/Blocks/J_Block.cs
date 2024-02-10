@@ -11,7 +11,7 @@ public class J_Block : Block
     public Grid<IGridObject> Grid => grid;
     public J_Block(Grid<IGridObject> grid) : base(grid)
     {
-        tilemapSprite = Cell.TilemapSprite.Path;
+        tilemapSprite = Cell.TilemapSprite.J;
         CreateBlock(blocks);
     }
 }

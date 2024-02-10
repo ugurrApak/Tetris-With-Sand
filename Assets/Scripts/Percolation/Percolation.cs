@@ -54,41 +54,6 @@ public class Percolation
             Union(xyto1D(i, j + 1), cell);
         }
     }
-    //public void ConnectOpenSites(int i, int j)
-    //{
-    //    Validate(i, j);
-    //    int cell = xyto1D(i, j);
-    //    //if ((connections.Connected(cell, xyto1D(i + 1, j)) || !IsOpen(i + 1, j)) && (connections.Connected(cell, xyto1D(i, j + 1)) || !IsOpen(i, j + 1))) return;
-    //    if (i == 0 && IsOpen(i, j))
-    //    {
-    //        Union(cell, lengthX * lengthY);
-    //    }
-    //    if(i != lengthX - 1 && !IsOpen(i,j))
-    //    {
-    //        ConnectOpenSites(i + 1, j);
-    //        return;
-    //    }
-    //    if (i != lengthX - 1 /*&& !connections.Connected(cell, xyto1D(i + 1, j))*/ && IsOpen(i + 1, j) && IsOpen(i, j))
-    //    {
-    //        Union(xyto1D(i + 1, j), cell);
-    //        ConnectOpenSites(i + 1, j);
-    //    }
-    //    else if (i == lengthX - 1 /*&& !connections.Connected(cell, lengthX * lengthY + 1)*/ && IsOpen(i, j))
-    //    {
-    //        Union(cell, lengthX * lengthY + 1);
-    //        if (j != lengthY - 1 /*&& !connections.Connected(cell, xyto1D(i, j + 1))*/ && IsOpen(i, j + 1))
-    //        {
-    //            Union(xyto1D(i, j + 1), cell);
-    //            ConnectOpenSites(i, j + 1);
-    //        }
-    //    }
-    //    if (j != lengthY - 1 /*&& !connections.Connected(cell, xyto1D(i, j + 1))*/ && IsOpen(i, j + 1) && IsOpen(i, j))
-    //    {
-    //        Union(xyto1D(i, j + 1), cell);
-    //        ConnectOpenSites(i, j + 1);
-    //    }
-    //    return;
-    ////}
     private void Union(int x, int y)
     {
         if (!connections.Connected(x, y))
@@ -181,19 +146,12 @@ public class Percolation
         }
         connections.ClearAll();
     }
-    //private void ClearStates()
-    //{
-    //    for (int i = 0; i < lengthX * lengthY; i++)
-    //    {
-    //        states[i] = false;
-    //    }
-    //}
     public IEnumerator Wait()
     {
         while (true)
         {
             UpdateConnections();
-            yield return new WaitForSeconds(.04f);
+            yield return new WaitForSeconds(.06f);
         }
     }
     private void Grid_OnGridValueChanged(object sender, Grid<IGridObject>.OnGridObjectChangedEventArgs e)

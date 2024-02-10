@@ -12,8 +12,12 @@ public class Cell : IGridObject
     public enum TilemapSprite
     {
         None,
-        Ground,
-        Path
+        I,
+        O,
+        T,
+        J,
+        Z,
+        S
     }
     private Grid<IGridObject> grid;
     private int x;

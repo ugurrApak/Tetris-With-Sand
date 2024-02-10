@@ -11,7 +11,7 @@ public class S_Block : Block
     public Grid<IGridObject> Grid => grid;
     public S_Block(Grid<IGridObject> grid) : base(grid)
     {
-        tilemapSprite = Cell.TilemapSprite.Path;
+        tilemapSprite = Cell.TilemapSprite.S;
         CreateBlock(blocks);
     }
 }

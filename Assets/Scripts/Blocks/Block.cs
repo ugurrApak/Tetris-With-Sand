@@ -90,7 +90,7 @@ public abstract class Block
     }
     public void CreateBlock(bool[,] blocks)
     {
-        cellCount = Tilemap.Instance.Height / 20;
+        cellCount = Tilemap.Instance.Width / 10;
         int rowBlockCounter = 0;
         int firstRowBlock = 0;
         blockArray = new Vector2Int[2 * cellCount, 4 * cellCount];
@@ -178,7 +178,7 @@ public abstract class Block
                     int y = blockArray[i, j].y;
                     if (blockArray[i, j] != Vector2Int.zero)
                     {
-                        if (y <= 0 || x + horizontalInput <= 0)
+                        if (y <= 0 || x + horizontalInput < 0)
                         {
                             Debug.Log(1);
                             canMoveLeft = false;

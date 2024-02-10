@@ -47,7 +47,7 @@ public class Test : MonoBehaviour
             CancelInvoke();
             block = new J_Block(Tilemap.Instance.Grid);
             InvokeRepeating("Move", .01f, .01f);
-            if (percIBlock == null)
+            if (percJBlock == null)
             {
                 percJBlock = new Percolation(block.TilemapSprite);
                 StartCoroutine(percJBlock.Wait());
