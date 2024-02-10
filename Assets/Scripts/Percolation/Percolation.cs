@@ -143,6 +143,7 @@ public class Percolation
                     gridObject.StartCoroutine(gridObject.GetTilemapSprite());
                 }
             }
+            SoundManager.Instance.PlaySound("resolve_1");
         }
         connections.ClearAll();
     }

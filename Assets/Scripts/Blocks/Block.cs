@@ -79,6 +79,7 @@ public abstract class Block
                                 }
                             }
                         }
+                        SoundManager.Instance.PlaySound("tetromino_drop");
                         return;
                     }
                     grid.GetGridObject(x, y).SetTilemapSprite(Cell.TilemapSprite.None);
@@ -152,7 +153,6 @@ public abstract class Block
                         if (y <= 0 || x + horizontalInput >= Tilemap.Instance.Width)
                         {
                             canMoveRight = false;
-                            Debug.Log("Done");
                             return;
                         }
                         grid.GetGridObject(x, y).SetTilemapSprite(Cell.TilemapSprite.None);
@@ -161,7 +161,6 @@ public abstract class Block
                     }
                     else if ((y <= 0 || x + horizontalInput >= Tilemap.Instance.Width) && blockArray[i, j] != Vector2Int.zero)
                     {
-                        Debug.Log("dONE");
                         canMoveRight = false;
                         return;
                     }
@@ -180,7 +179,6 @@ public abstract class Block
                     {
                         if (y <= 0 || x + horizontalInput < 0)
                         {
-                            Debug.Log(1);
                             canMoveLeft = false;
                             return;
                         }
