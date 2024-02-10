@@ -16,6 +16,8 @@ public abstract class Block
     private int endPosY;
     private bool canMove;
     protected Vector2Int[,] blockArray;
+    
+    public Cell.TilemapSprite TilemapSprite { get => tilemapSprite; private set => tilemapSprite = value; }
     public Block(Grid<IGridObject> grid)
     {
         canMove = true;
@@ -73,18 +75,6 @@ public abstract class Block
                                 }
                             }
                         }
-                        //for (int k = blockArray.GetLength(0) - 1; k <= 0; k++)
-                        //{
-                        //    for (int l = blockArray.GetLength(1) - 1; l <= 0; l++)
-                        //    {
-                        //        if (blockArray[k, l] != Vector2Int.zero)
-                        //        {
-                        //            grid.GetGridObject(blockArray[k, l].x, blockArray[k, l].y).StartCoroutine(tilemapSprite);
-                        //            canMove = false;
-                        //        }
-                        //    }
-                        //}
-
                         return;
                     }
                     grid.GetGridObject(x, y).SetTilemapSprite(Cell.TilemapSprite.None);

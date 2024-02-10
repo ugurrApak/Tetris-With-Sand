@@ -5,32 +5,44 @@ using UnityEngine.PlayerLoop;
 
 public class Test : MonoBehaviour
 {
-    private Block o_Block;
+    private Block block;
     [SerializeField] private TilemapVisual tilemapVisual;
-    private Percolation perc;
+    private Percolation percIBlock;
+    private Percolation percOBlock;
 
     private void Start()
     {
         Tilemap.Instance.SetTilemapVisual(tilemapVisual);
-        perc = new Percolation();
-        StartCoroutine(perc.Wait());
     }
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             CancelInvoke();
-            o_Block = new O_Block(Tilemap.Instance.Grid);
+            block = new O_Block(Tilemap.Instance.Grid);
             InvokeRepeating("Move", .01f, .01f);
+            if (percOBlock == null)
+            {
+                percOBlock = new Percolation(block.TilemapSprite);
+                StartCoroutine(percOBlock.Wait());
+                Debug.Log(block.TilemapSprite);
+            }
         }
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Input.GetMouseButtonDown(1))
         {
-            Vector3 mouseWorldPosition = Utils.GetMouseWorldPosition();
-            Tilemap.Instance.SetTilemapSprite(mouseWorldPosition, Cell.TilemapSprite.None);
+            CancelInvoke();
+            block = new I_Block(Tilemap.Instance.Grid);
+            InvokeRepeating("Move", .01f, .01f);
+            if (percIBlock == null)
+            {
+                percIBlock = new Percolation(block.TilemapSprite);
+                StartCoroutine(percIBlock.Wait());
+                Debug.Log(block.TilemapSprite);
+            }
         }
     }
     private void Move()
     {
-        o_Block.MoveBlock(Input.GetAxisRaw("Horizontal"));
+        block.MoveBlock(Input.GetAxisRaw("Horizontal"));
     }
 }

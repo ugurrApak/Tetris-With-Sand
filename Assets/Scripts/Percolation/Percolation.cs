@@ -11,86 +11,84 @@ public class Percolation
     private int lengthY;
     private bool[] states;
     private WeightedQU connections;
+    private Cell.TilemapSprite tilemapSprite;
 
-    public Percolation()
+    public Percolation(Cell.TilemapSprite tilemapSprite)
     {
         lengthX = Tilemap.Instance.Width;
         lengthY = Tilemap.Instance.Height;
-        connections = new WeightedQU(lengthX * lengthY + 2);
-        states = new bool[lengthX * lengthY + 2];
+        connections = new WeightedQU(lengthX * lengthY + 1);
+        states = new bool[lengthX * lengthY + 1];
         for (int i = 0; i < lengthX * lengthY; i++)
         {
             states[i] = false;
         }
         states[lengthX * lengthY] = true;
-        states[lengthX * lengthY + 1] = true;
+        this.tilemapSprite = tilemapSprite;
         Tilemap.Instance.Grid.OnGridObjectChanged += Grid_OnGridValueChanged;
     }
-    //public void Open(int i, int j)
-    //{
-    //    Validate(i, j);
-    //    if (IsOpen(i, j)) return;
-    //    int cell = xyto1D(i,j);
-    //    states[cell] = true;
-
-    //    if (i != 0 && IsOpen(i-1,j))
-    //    {
-    //        Union(xyto1D(i - 1, j),cell);
-    //    }
-    //    else if(i == 0)
-    //    {
-    //        Union(cell, lengthX * lengthY);
-    //    }
-
-    //    if (i != lengthX - 1 && IsOpen(i + 1, j))
-    //    {
-    //        Union(xyto1D(i + 1, j),cell);
-    //    }
-    //    else if (i == lengthX - 1)
-    //    {
-    //        Union(cell, lengthX * lengthY + 1);
-    //    }
-
-    //    if (j != 0 && IsOpen(i, j -1))
-    //    {
-    //        Union(xyto1D(i, j - 1), cell);
-    //    }
-
-    //    if (j != lengthY -1 && IsOpen(i, j + 1))
-    //    {
-    //        Union(xyto1D(i, j + 1), cell);
-    //    }
-    //}
-    public void ConnectOpenSites(int i, int j)
+    public void Open(int i, int j)
     {
         Validate(i, j);
         int cell = xyto1D(i, j);
-        if ((connections.Connected(cell, xyto1D(i + 1, j)) || !IsOpen(i + 1, j)) && (connections.Connected(cell, xyto1D(i, j + 1)) || !IsOpen(i, j + 1)))  return;
-        if (i == 0 && IsOpen(i, j))
+        if (i != 0 && IsOpen(i - 1, j))
+        {
+            Union(xyto1D(i - 1, j), cell);
+        }
+        if (i != lengthX - 1 && IsOpen(i + 1, j))
+        {
+            Union(xyto1D(i + 1, j), cell);
+        }
+        else if (i == lengthX - 1)
         {
             Union(cell, lengthX * lengthY);
         }
-        if (i != lengthX - 1 && !connections.Connected(cell, xyto1D(i + 1, j)) && IsOpen(i + 1, j))
+
+        if (j != 0 && IsOpen(i, j - 1))
         {
-            Union(xyto1D(i + 1, j), cell);
-            ConnectOpenSites(i + 1, j);
+            Union(xyto1D(i, j - 1), cell);
         }
-        else if (i == lengthX - 1 && !connections.Connected(cell, lengthX * lengthY + 1))
-        {
-            Union(cell, lengthX * lengthY + 1);
-            if (j != lengthY - 1 && !connections.Connected(cell, xyto1D(i, j + 1)) && IsOpen(i, j + 1))
-            {
-                Union(xyto1D(i, j + 1), cell);
-                ConnectOpenSites(i, j + 1);
-            }
-        }
-        if (j != lengthY - 1 && !connections.Connected(cell, xyto1D(i, j + 1)) && IsOpen(i, j + 1))
+
+        if (j != lengthY - 1 && IsOpen(i, j + 1))
         {
             Union(xyto1D(i, j + 1), cell);
-            ConnectOpenSites(i, j + 1);
         }
-        return;
     }
+    //public void ConnectOpenSites(int i, int j)
+    //{
+    //    Validate(i, j);
+    //    int cell = xyto1D(i, j);
+    //    //if ((connections.Connected(cell, xyto1D(i + 1, j)) || !IsOpen(i + 1, j)) && (connections.Connected(cell, xyto1D(i, j + 1)) || !IsOpen(i, j + 1))) return;
+    //    if (i == 0 && IsOpen(i, j))
+    //    {
+    //        Union(cell, lengthX * lengthY);
+    //    }
+    //    if(i != lengthX - 1 && !IsOpen(i,j))
+    //    {
+    //        ConnectOpenSites(i + 1, j);
+    //        return;
+    //    }
+    //    if (i != lengthX - 1 /*&& !connections.Connected(cell, xyto1D(i + 1, j))*/ && IsOpen(i + 1, j) && IsOpen(i, j))
+    //    {
+    //        Union(xyto1D(i + 1, j), cell);
+    //        ConnectOpenSites(i + 1, j);
+    //    }
+    //    else if (i == lengthX - 1 /*&& !connections.Connected(cell, lengthX * lengthY + 1)*/ && IsOpen(i, j))
+    //    {
+    //        Union(cell, lengthX * lengthY + 1);
+    //        if (j != lengthY - 1 /*&& !connections.Connected(cell, xyto1D(i, j + 1))*/ && IsOpen(i, j + 1))
+    //        {
+    //            Union(xyto1D(i, j + 1), cell);
+    //            ConnectOpenSites(i, j + 1);
+    //        }
+    //    }
+    //    if (j != lengthY - 1 /*&& !connections.Connected(cell, xyto1D(i, j + 1))*/ && IsOpen(i, j + 1) && IsOpen(i, j))
+    //    {
+    //        Union(xyto1D(i, j + 1), cell);
+    //        ConnectOpenSites(i, j + 1);
+    //    }
+    //    return;
+    ////}
     private void Union(int x, int y)
     {
         if (!connections.Connected(x, y))
@@ -111,12 +109,15 @@ public class Percolation
 
     private bool Percolates()
     {
-        return connections.Connected(lengthY * lengthX, lengthX * lengthY + 1);
+        for (int i = 0; i < lengthY; i++)
+        {
+            if (connections.Connected(i * (lengthX), lengthX * lengthY))
+            {
+                return true;
+            }
+        }
+        return false;
     }
-    //public void ClearAllConnections()
-    //{
-    //    connections.ClearAll();
-    //}
     private List<Vector2Int> GetConnectedCoords()
     {
         List<Vector2Int> connectedCoords = new List<Vector2Int>();
@@ -149,26 +150,14 @@ public class Percolation
     {
         return new Vector2Int(x % (lengthX), (x - (x % (lengthX))) / (lengthX));
     }
-    private void UpdateConnections(/*int x, int y*/)
+    private void UpdateConnections()
     {
-        //for (int i = 0; i < lengthX * lengthY; i++)
-        //{
-        //    Vector2Int xy = xto2D(i);
-        //    if (Tilemap.Instance.Grid.GetGridObject(xy.x, xy.y).GetTilemapSprite() == Cell.TilemapSprite.Path)
-        //    {
-        //        states[i] = true;
-        //    }
-        //    else
-        //    {
-        //        states[i] = false;
-        //    }
-        //}
-        //states[xyto1D(x, y)] = true;
-        for (int i = 0; i < lengthY; i++)
+        for (int i = 0; i < lengthX * lengthY; i++)
         {
-            if (states[xyto1D(0, i)])
+            Vector2Int xy = xto2D(i);
+            if (states[i])
             {
-                ConnectOpenSites(0, i);
+                Open(xy.x,xy.y);
             }
         }
         if (Percolates())
@@ -177,18 +166,28 @@ public class Percolation
             {
                 Tilemap.Instance.SetTilemapSprite(item.x, item.y, Cell.TilemapSprite.None);
                 Tilemap.Instance.GetTilemapObject(item.x, item.y).CanMove = true;
+                states[xyto1D(item.x, item.y)] = false;
             }
-            ClearStates();
+            for (int i = 0; i < lengthX * lengthY; i++)
+            {
+                Vector2Int xy = xto2D(i);
+                IGridObject gridObject = Tilemap.Instance.GetTilemapObject(xy.x, xy.y);
+                if (!gridObject.CanMove)
+                {
+                    gridObject.CanMove = true;
+                    gridObject.StartCoroutine(gridObject.GetTilemapSprite());
+                }
+            }
         }
         connections.ClearAll();
     }
-    private void ClearStates()
-    {
-        for (int i = 0; i < lengthX * lengthY; i++)
-        {
-            states[i] = false;
-        }
-    }
+    //private void ClearStates()
+    //{
+    //    for (int i = 0; i < lengthX * lengthY; i++)
+    //    {
+    //        states[i] = false;
+    //    }
+    //}
     public IEnumerator Wait()
     {
         while (true)
@@ -199,7 +198,7 @@ public class Percolation
     }
     private void Grid_OnGridValueChanged(object sender, Grid<IGridObject>.OnGridObjectChangedEventArgs e)
     {
-        if (Tilemap.Instance.GetTilemapObject(e.x,e.y).GetTilemapSprite() != Cell.TilemapSprite.None)
+        if (Tilemap.Instance.GetTilemapObject(e.x,e.y).GetTilemapSprite() == tilemapSprite)
         {
             states[xyto1D(e.x, e.y)] = true;
         }

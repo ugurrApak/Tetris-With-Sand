@@ -11,7 +11,7 @@ public class O_Block : Block
 			{false, true, true, false },
 			{false, true, true, false } };
 
-public Grid<IGridObject> Grid => grid;
+	public Grid<IGridObject> Grid => grid;
 	public O_Block(Grid<IGridObject> grid) : base(grid)
 	{
 		tilemapSprite = Cell.TilemapSprite.Path;
