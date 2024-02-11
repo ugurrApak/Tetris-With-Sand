@@ -29,4 +29,15 @@ public class SoundManager : MonoBehaviour
             }
         }
     }
+    public float GetSoundLength(string name)
+    {
+        foreach (var clip in sfxClip)
+        {
+            if (name == clip.name)
+            {
+                return clip.length;
+            }
+        }
+        return 0f;
+    }
 }

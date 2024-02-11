@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -19,6 +21,18 @@ public class Test : MonoBehaviour
         Tilemap.Instance.SetTilemapVisual(tilemapVisual);
     }
     private void Update()
+    {
+        if (GameManager.Instance.State == GameState.INGAME)
+        {
+            Time.timeScale = 1f;
+            TestGame();
+        }
+        else
+        {
+            Time.timeScale = 0f;
+        }
+    }
+    private void TestGame()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -86,10 +100,10 @@ public class Test : MonoBehaviour
                 StartCoroutine(percZBlock.Wait());
             }
         }
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    block.RotateBlock();
-        //}
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MenuManager.Instance.UpdateMenuState(MenuState.PAUSE);
+        }
     }
     private void Move()
     {
