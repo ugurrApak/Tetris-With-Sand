@@ -9,6 +9,7 @@ public class Pause : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuManager.Instance.UpdateMenuState(MenuState.PLAY);
+            SoundManager.Instance.PlaySound("menu_select");
             gameObject.SetActive(false);
         }
     }

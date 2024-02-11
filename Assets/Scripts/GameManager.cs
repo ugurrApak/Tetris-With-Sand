@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,16 +14,13 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(Instance);
         }
-    }
-    private void Start()
-    {
-        UpdateGameState(GameState.START);
+        State = GameState.MENU;
     }
     public void UpdateGameState(GameState newState)
     {
@@ -31,7 +29,8 @@ public class GameManager : MonoBehaviour
         {
             case GameState.MENU:
                 break;
-            case GameState.START: 
+            case GameState.START:
+                HandleStart();
                 break;
             case GameState.INGAME:
                 break;
@@ -43,6 +42,10 @@ public class GameManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState));
         }
         OnGameStateChanged?.Invoke(newState);
+    }
+    private void HandleStart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
 public enum GameState

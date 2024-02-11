@@ -8,8 +8,7 @@ using UnityEngine.UI;
 public class StartLight : MonoBehaviour
 {
     [SerializeField] Image[] startLights;
-
-    private void Start()
+    private void Awake()
     {
         StartGame();
     }
