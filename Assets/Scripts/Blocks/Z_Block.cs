@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Z_Block : Block
 {
-    private bool[,] blocks = new bool[2, 4] {
+    private bool[,] blocksZ = new bool[4, 4] {
+            {false, false, false, false },
             {false, true, true, false },
-            {true, true, false, false } };
+            {true, true, false, false },
+            {false, false, false, false }};
 
     public Grid<IGridObject> Grid => grid;
     public Z_Block(Grid<IGridObject> grid) : base(grid)
     {
         tilemapSprite = Cell.TilemapSprite.Z;
+        blocks = blocksZ;
         CreateBlock(blocks);
     }
 }
