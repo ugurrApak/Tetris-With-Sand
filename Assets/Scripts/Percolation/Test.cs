@@ -15,10 +15,13 @@ public class Test : MonoBehaviour
     private Percolation percSBlock;
     private Percolation percTBlock;
     private Percolation percZBlock;
+    private PercolationToptoBottom percToptoBottom;
 
     private void Start()
     {
         Tilemap.Instance.SetTilemapVisual(tilemapVisual);
+        percToptoBottom = new PercolationToptoBottom();
+        StartCoroutine(percToptoBottom.Wait());
     }
     private void Update()
     {

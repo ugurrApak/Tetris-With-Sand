@@ -49,6 +49,13 @@ public abstract class Block
                 blockArray[((y - 1) * cellCount) + i - startPosY, ((x - 1) * cellCount) + j - startPosX] = new Vector2Int(j, i);
             }
         }
+        for (int i = 0; i < blockArray.GetLength(1) && blockArray[0,i] != Vector2Int.zero; i++)
+        {
+            if (grid.GetGridObject(blockArray[0, i].x, blockArray[0, i].y - 1).GetTilemapSprite() != Cell.TilemapSprite.None)
+            {
+                GameManager.Instance.UpdateGameState(GameState.LOSE);
+            }
+        }
     }
     public void StartCoroutine()
     {
@@ -143,12 +150,6 @@ public abstract class Block
                 for (int j = 0; j < blocks.GetLength(1); j++)
                 {
                     blocks[i, j] = temp[temp.GetLength(0) - j - 1, i];
-                    //if (temp[temp.GetLength(0) - j - 1, i] != Vector2Int.zero)
-                    //{
-                    //    Vector2Int change = new Vector2Int(temp[temp.GetLength(0) - j - 1, i].x + (temp.GetLength(0) - j - 1 - i), temp[temp.GetLength(0) - j - 1, i].y + (j - i));
-                    //    //temp[blockArray.GetLength(0) - j - 1, i] = change;
-                    //    blockArray[i, j] = change;
-                    //}
                 }
             }
             for (int i = 0; i < blockArray.GetLength(0); i++)

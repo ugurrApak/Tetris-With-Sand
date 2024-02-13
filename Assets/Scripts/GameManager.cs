@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
             case GameState.VICTORY:
                 break;
             case GameState.LOSE:
+                Debug.Log("Lose");
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState));
