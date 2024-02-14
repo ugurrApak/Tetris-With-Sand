@@ -106,7 +106,7 @@ public class PercolationToptoBottom
         while (true)
         {
             UpdateConnections();
-            yield return new WaitForSeconds(.06f);
+            yield return new WaitForSeconds(.01f);
         }
     }
     private void Grid_OnGridValueChanged(object sender, Grid<IGridObject>.OnGridObjectChangedEventArgs e)
