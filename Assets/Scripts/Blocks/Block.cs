@@ -26,6 +26,7 @@ public abstract class Block
     protected bool[,] blocks;
     
     public Cell.TilemapSprite TilemapSprite { get => tilemapSprite; private set => tilemapSprite = value; }
+    public bool CanMove { get => canMove; }
     public Block(Grid<IGridObject> grid)
     {
         canMove = true;
@@ -49,13 +50,13 @@ public abstract class Block
                 blockArray[((y - 1) * cellCount) + i - startPosY, ((x - 1) * cellCount) + j - startPosX] = new Vector2Int(j, i);
             }
         }
-        for (int i = 0; i < blockArray.GetLength(1) && blockArray[0,i] != Vector2Int.zero; i++)
-        {
-            if (grid.GetGridObject(blockArray[0, i].x, blockArray[0, i].y - 1).GetTilemapSprite() != Cell.TilemapSprite.None)
-            {
-                GameManager.Instance.UpdateGameState(GameState.LOSE);
-            }
-        }
+        //for (int i = 0; i < blockArray.GetLength(1) && blockArray[0,i] != Vector2Int.zero; i++)
+        //{
+        //    if (grid.GetGridObject(blockArray[0, i].x, blockArray[0, i].y - 1).GetTilemapSprite() != Cell.TilemapSprite.None)
+        //    {
+        //        GameManager.Instance.UpdateGameState(GameState.LOSE);
+        //    }
+        //}
     }
     public void StartCoroutine()
     {
@@ -142,7 +143,7 @@ public abstract class Block
         if (canMove)
         {
             StopCoroutine();
-            canMove = false;
+            //canMove = false;
             await Task.Delay(10);
             bool[,] temp = (bool[,])blocks.Clone();
             for (int i = 0; i < blocks.GetLength(0); i++)
