@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockRandomizer : MonoBehaviour
 {
-    private Block block;
+    private static Block block;
     [SerializeField] private TilemapVisual tilemapVisual;
     private Percolation percIBlock;
     private Percolation percOBlock;
@@ -12,7 +12,6 @@ public class BlockRandomizer : MonoBehaviour
     private Percolation percSBlock;
     private Percolation percTBlock;
     private Percolation percZBlock;
-    private PercolationToptoBottom percToptoBottom;
     private void Start()
     {
         Tilemap.Instance.SetTilemapVisual(tilemapVisual);
@@ -60,9 +59,7 @@ public class BlockRandomizer : MonoBehaviour
     }
     private void CreateZ_Block()
     {
-        CancelInvoke();
         block = new Z_Block(Tilemap.Instance.Grid);
-        InvokeRepeating("Move", .01f, .01f);
         if (percZBlock == null)
         {
             percZBlock = new Percolation(block.TilemapSprite);
@@ -71,9 +68,7 @@ public class BlockRandomizer : MonoBehaviour
     }
     private void CreateT_Block()
     {
-        CancelInvoke();
         block = new T_Block(Tilemap.Instance.Grid);
-        InvokeRepeating("Move", .01f, .01f);
         if (percTBlock == null)
         {
             percTBlock = new Percolation(block.TilemapSprite);
@@ -82,9 +77,7 @@ public class BlockRandomizer : MonoBehaviour
     }
     private void CreateS_Block()
     {
-        CancelInvoke();
         block = new S_Block(Tilemap.Instance.Grid);
-        InvokeRepeating("Move", .01f, .01f);
         if (percSBlock == null)
         {
             percSBlock = new Percolation(block.TilemapSprite);
@@ -93,9 +86,7 @@ public class BlockRandomizer : MonoBehaviour
     }
     private void CreateJ_Block()
     {
-        CancelInvoke();
         block = new J_Block(Tilemap.Instance.Grid);
-        InvokeRepeating("Move", .01f, .01f);
         if (percJBlock == null)
         {
             percJBlock = new Percolation(block.TilemapSprite);
@@ -105,9 +96,7 @@ public class BlockRandomizer : MonoBehaviour
 
     private void CreateI_Block()
     {
-        CancelInvoke();
         block = new I_Block(Tilemap.Instance.Grid);
-        InvokeRepeating("Move", .01f, .01f);
         if (percIBlock == null)
         {
             percIBlock = new Percolation(block.TilemapSprite);
@@ -117,17 +106,15 @@ public class BlockRandomizer : MonoBehaviour
 
     private void CreateO_Block()
     {
-        CancelInvoke();
         block = new O_Block(Tilemap.Instance.Grid);
-        InvokeRepeating("Move", .01f, .01f);
         if (percOBlock == null)
         {
             percOBlock = new Percolation(block.TilemapSprite);
             StartCoroutine(percOBlock.Wait());
         }
     }
-    private void Move()
+    public static Block GetCurrentBlock()
     {
-        block.MoveBlock(Input.GetAxisRaw("Horizontal"));
+        return block;
     }
 }

@@ -33,20 +33,30 @@ public class GameManager : MonoBehaviour
                 HandleStart();
                 break;
             case GameState.INGAME:
+                HandleInGame();
                 break;
             case GameState.VICTORY:
                 break;
             case GameState.LOSE:
-                Debug.Log("Lose");
+                HandleLose();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState));
         }
         OnGameStateChanged?.Invoke(newState);
     }
+    private void HandleInGame()
+    {
+        SoundManager.Instance.PlayMusic();
+    }
     private void HandleStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    private void HandleLose()
+    {
+        SoundManager.Instance.PlaySound("game_over");
+        MenuManager.Instance.UpdateMenuState(MenuState.LOSE);
     }
 }
 public enum GameState

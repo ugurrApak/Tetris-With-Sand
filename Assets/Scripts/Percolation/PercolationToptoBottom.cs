@@ -10,7 +10,7 @@ public class PercolationToptoBottom
     private int lengthY;
     private WeightedQU connections;
     bool[] states;
-    int yTolerance = 80;
+    int yTolerance = 50;
     public PercolationToptoBottom()
     {
         lengthX = Tilemap.Instance.Width;

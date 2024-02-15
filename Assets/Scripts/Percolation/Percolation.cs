@@ -53,6 +53,24 @@ public class Percolation
         {
             Union(xyto1D(i, j + 1), cell);
         }
+
+
+        //if (i != lengthX - 1 && j != 0 && IsOpen(i + 1, j - 1))
+        //{
+        //    Union(xyto1D(i + 1, j - 1), cell);
+        //}
+        //if (i != lengthX - 1 && j != lengthY - 1 && IsOpen(i + 1, j + 1))
+        //{
+        //    Union(xyto1D(i + 1, j + 1), cell);
+        //}
+        //if (i != 0  && j != 0 && IsOpen(i - 1, j - 1))
+        //{
+        //    Union(xyto1D(i - 1, j - 1), cell);
+        //}
+        //if (i != 0  && j != lengthY - 1 && IsOpen(i - 1, j + 1))
+        //{
+        //    Union(xyto1D(i - 1, j + 1), cell);
+        //}
     }
     private void Union(int x, int y)
     {

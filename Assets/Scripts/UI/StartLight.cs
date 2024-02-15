@@ -23,6 +23,7 @@ public class StartLight : MonoBehaviour
         }
         SoundManager.Instance.PlaySound("play_beep");
         gameObject.SetActive(false);
+        SoundManager.Instance.PlayMusic("music_c");
         GameManager.Instance.UpdateGameState(GameState.INGAME);
     }
 }

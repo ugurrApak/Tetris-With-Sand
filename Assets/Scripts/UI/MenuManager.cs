@@ -15,12 +15,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject mainMenuPanel;
     [SerializeField] GameObject helpPanel;
     [SerializeField] GameObject startGamePanel;
+    [SerializeField] GameObject settingsPanel;
+    [SerializeField] GameObject losePanel;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(this);
             DontDestroyOnLoad(transform.parent.gameObject);
         }
         else
@@ -44,6 +45,7 @@ public class MenuManager : MonoBehaviour
                 HandleHelp();
                 break;
             case MenuState.SETTINGS:
+                HandleSettings();
                 break;
             case MenuState.PLAY_GAME:
                 HandlePlayGame();
@@ -54,6 +56,7 @@ public class MenuManager : MonoBehaviour
             case MenuState.WIN:
                 break;
             case MenuState.LOSE:
+                HandleLose();
                 break;
             case MenuState.PLAY:
                 HandlePlay();
@@ -62,13 +65,15 @@ public class MenuManager : MonoBehaviour
                 break;
         }
     }
-    private void HandleStartGame()
+    private async void HandleStartGame()
     {
         if (GameManager.Instance.State != GameState.MENU)
         {
             GameManager.Instance.UpdateGameState(GameState.MENU);
         }
         startGamePanel.SetActive(true);
+        await Task.Delay(30);
+        SoundManager.Instance.PlayMusic("theme");
     }
     private void HandleMainMenu()
     {
@@ -77,6 +82,10 @@ public class MenuManager : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameState.MENU);
         }
         mainMenuPanel.SetActive(true);
+        if (!SoundManager.Instance.IsPlayingMusic())
+        {
+            SoundManager.Instance.PlayMusic("theme");
+        }
     }
     private void HandleHelp()
     {
@@ -86,9 +95,18 @@ public class MenuManager : MonoBehaviour
         }
         helpPanel.SetActive(true);
     }
+    private void HandleSettings()
+    {
+        if (GameManager.Instance.State != GameState.MENU)
+        {
+            GameManager.Instance.UpdateGameState(GameState.MENU);
+        }
+        settingsPanel.SetActive(true);
+    }
     private async void HandlePlayGame()
     {
         GameManager.Instance.UpdateGameState(GameState.START);
+        SoundManager.Instance.PauseMusic();
         await Task.Delay(100);
         startLightPanel.SetActive(true);
     }
@@ -98,7 +116,13 @@ public class MenuManager : MonoBehaviour
         {
             GameManager.Instance.UpdateGameState(GameState.MENU);
         }
+        SoundManager.Instance.PauseMusic();
         pausePanel.SetActive(true);
+    }
+    private void HandleLose()
+    {
+        SoundManager.Instance.PauseMusic();
+        losePanel.SetActive(true);
     }
     private void HandlePlay()
     {

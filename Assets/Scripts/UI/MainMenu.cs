@@ -16,6 +16,11 @@ public class MainMenu : MonoBehaviour
         SoundManager.Instance.PlaySound("menu_select");
         gameObject.SetActive(false);
     }
+    public void Settings()
+    {
+        MenuManager.Instance.UpdateMenuState(MenuState.SETTINGS);
+        SoundManager.Instance.PlaySound("menu_select");
+    }
     public void Exit()
     {
         Application.Quit();
