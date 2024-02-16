@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BlockRandomizer : MonoBehaviour
 {
     private static Block block;
     [SerializeField] private TilemapVisual tilemapVisual;
+    [SerializeField] private NextBlock nextBlockScript;
     private Percolation percIBlock;
     private Percolation percOBlock;
     private Percolation percJBlock;
     private Percolation percSBlock;
     private Percolation percTBlock;
     private Percolation percZBlock;
+    int nextBlockNumber;
     private void Start()
     {
         Tilemap.Instance.SetTilemapVisual(tilemapVisual);
+        block = null;
+        nextBlockNumber = Random.Range(0,5);
     }
     private void Update()
     {
@@ -32,8 +37,10 @@ public class BlockRandomizer : MonoBehaviour
     }
     public void CreateRandomBlock()
     {
-        int nextBlock = Random.Range(0, 6);
-        switch (nextBlock)
+        int currentBlock = nextBlockNumber;
+        nextBlockNumber = Random.Range(0, 5);
+        nextBlockScript.UpdateNextBlockSprite(nextBlockNumber);
+        switch (currentBlock)
         {
             case 0:
                 CreateO_Block();

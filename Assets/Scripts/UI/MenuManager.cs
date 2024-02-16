@@ -1,9 +1,6 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -72,7 +69,7 @@ public class MenuManager : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameState.MENU);
         }
         startGamePanel.SetActive(true);
-        await Task.Delay(30);
+        await UniTask.Delay(30);
         SoundManager.Instance.PlayMusic("theme");
     }
     private void HandleMainMenu()
@@ -107,8 +104,9 @@ public class MenuManager : MonoBehaviour
     {
         GameManager.Instance.UpdateGameState(GameState.START);
         SoundManager.Instance.PauseMusic();
-        await Task.Delay(100);
+        await UniTask.Delay(100, true);
         startLightPanel.SetActive(true);
+        startLightPanel.GetComponent<StartLight>().StartGame();
     }
     private void HandlePause()
     {

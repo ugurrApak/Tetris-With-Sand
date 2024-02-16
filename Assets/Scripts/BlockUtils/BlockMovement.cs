@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockMovement : MonoBehaviour
@@ -11,7 +9,6 @@ public class BlockMovement : MonoBehaviour
         percToptoBottom = new PercolationToptoBottom();
         StartCoroutine(percToptoBottom.Wait());
     }
-
     private void Update()
     {
         if (GameManager.Instance.State == GameState.INGAME)
@@ -32,6 +29,14 @@ public class BlockMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuManager.Instance.UpdateMenuState(MenuState.PAUSE);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            BlockRandomizer.GetCurrentBlock().blockSpeed = .005f;
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            BlockRandomizer.GetCurrentBlock().blockSpeed = .02f;
         }
     }
     private void Move()

@@ -1,10 +1,6 @@
-//using System;
+using Cysharp.Threading.Tasks;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-//using System.Collections.Generic;
-//using Unity.VisualScripting;
-//using UnityEditor.Rendering;
 using UnityEngine;
 
 public abstract class Block
@@ -24,6 +20,7 @@ public abstract class Block
     private MonoBehaviour mb;
     protected Vector2Int[,] blockArray;
     protected bool[,] blocks;
+    public float blockSpeed = .02f;
     
     public Cell.TilemapSprite TilemapSprite { get => tilemapSprite; private set => tilemapSprite = value; }
     public bool CanMove { get => canMove; }
@@ -136,7 +133,7 @@ public abstract class Block
         if (canMove)
         {
             StopCoroutine();
-            await Task.Delay(10);
+            await UniTask.Delay(10);
             bool[,] temp = (bool[,])blocks.Clone();
             for (int i = 0; i < blocks.GetLength(0); i++)
             {
@@ -158,7 +155,6 @@ public abstract class Block
             CreateBlock(blocks);
             canMove = true;
             canMoveRight = true; canMoveLeft = true;
-            StartCoroutine();
         }
     }
     public void MoveBlock(float horizontalInput)
@@ -225,7 +221,7 @@ public abstract class Block
             {
                 UpdateCellPos();
             }
-            yield return new WaitForSeconds(.02f);
+            yield return new WaitForSeconds(blockSpeed);
         }
     }
     public override string ToString()
